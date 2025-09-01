@@ -37,7 +37,6 @@ seq2seq_exp_cfg = ExpCfg(
         save_filter_frozen_weights=False,
         load_from_ckpt=False,
         ckpt_to_load='',
-        load_from_pretrain=True,
         lmdb_map_size=1e12,
         dataset_r2r_root_dir='data/vln_pe/raw_data/r2r',
         dataset_3dgs_root_dir='',

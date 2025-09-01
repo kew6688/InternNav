@@ -37,7 +37,6 @@ seq2seq_plus_exp_cfg = ExpCfg(
         save_filter_frozen_weights=False,
         load_from_ckpt=False,
         ckpt_to_load='checkpoints/r2r/zero_shot/seq2seq',
-        load_from_pretrain=True,
         lmdb_map_size=1e12,
         dataset_r2r_root_dir='data/vln_pe/raw_data/r2r',
         dataset_3dgs_root_dir='',
