@@ -7,6 +7,7 @@ The main progress:
 import importlib.util
 import subprocess
 import sys
+import time
 
 import numpy as np
 
@@ -66,19 +67,26 @@ def main():
 
 
 def start_server():
-    # Start server
     server_cmd = [
         sys.executable,
         "internnav/agent/utils/server.py",
         "--config",
-        'scripts/eval/configs/challenge_cfg.py',
+        "scripts/eval/configs/challenge_cfg.py",
     ]
-    subprocess.Popen(server_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, start_new_session=True)
+    # No start_new_session，stay with parent process
+    proc = subprocess.Popen(
+        server_cmd,
+        stdout=subprocess.DEVNULL,  # avoid using PIPE, overflow the process buffer
+        stderr=subprocess.STDOUT,
+    )
+    return proc
 
 
 if __name__ == '__main__':
+    proc = None
     try:
-        start_server()
+        proc = start_server()
+        time.sleep(3)
         main()
     except Exception as e:
         print(f'exception is {e}')
@@ -86,3 +94,12 @@ if __name__ == '__main__':
 
         traceback.print_exc()
         sys.exit(1)
+    finally:
+        if proc and proc.poll() is None:
+            print("Shutting down server...")
+            proc.terminate()
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                print("Force killing server...")
+                proc.kill()
