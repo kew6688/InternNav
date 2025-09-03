@@ -76,8 +76,8 @@ def start_server():
     # No start_new_session，stay with parent process
     proc = subprocess.Popen(
         server_cmd,
-        stdout=subprocess.PIPE,  # avoid using PIPE, overflow the process buffer
-        stderr=subprocess.STDOUT,
+        stdout=None,  # avoid using PIPE, overflow the process buffer
+        stderr=None,
     )
     return proc
 
