@@ -65,4 +65,4 @@ jobs:
       - name: Run tests
         run: |
           pip install pytest
-          # pytest -q -W ignore
+          pytest -q -W ignore
