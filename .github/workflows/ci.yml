@@ -41,6 +41,7 @@ jobs:
       - name: Verify conda environment
         shell: bash -l {0}
         run: |
+          source /root/miniconda3/etc/profile.d/conda.sh
           conda activate internutopia
           echo "Current directory: $(pwd)"
           echo "Conda environment: $CONDA_DEFAULT_ENV"
