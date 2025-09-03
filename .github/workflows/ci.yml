@@ -52,12 +52,23 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash -l {0}
         run: |
-          conda activate internutopia
           git fetch origin ${{ github.base_ref }}
           pre-commit run --from-ref origin/${{ github.base_ref }} --to-ref HEAD
 
       - name: Run tests
         shell: bash -l {0}
         run: |
+          # activate conda env
+          source /root/miniconda3/etc/profile.d/conda.sh
           conda activate internutopia
+
+          # dataset
+          ln -sf /cpfs/user/wangyukai/mp3d_data data
+          ln -sf /shared/smartbot/vln-pe/kujiale/grnavigation/data/lerobot/kujiale data/vln_pe/traj_data
+          ln -sf /cpfs/user/wangyukai/kujiale_data interiornav_data
+
+          # checkpoints
+          ln -sf /cpfs/user/wangyukai/checkpoints
+
+          # run tests
           pytest -q -W ignore
