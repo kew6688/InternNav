@@ -33,6 +33,20 @@ jobs:
           fetch-depth: 0
           submodules: recursive
 
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Verify conda environment
+        shell: bash -l {0}
+        run: |
+          conda activate internutopia
+          echo "Current directory: $(pwd)"
+          echo "Conda environment: $CONDA_DEFAULT_ENV"
+          python --version
+          which python
+
       - name: Run pre-commit on diff only
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash -l {0}
