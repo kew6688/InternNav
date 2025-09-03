@@ -49,6 +49,6 @@ Test
 
 
 @pytest.mark.gpu
-def test_evaluator():
-    start_command = 'python ./tests/function_test/test_evaluator.py'
+def test_challenge():
+    start_command = 'python ./tests/function_test/test_challenge.py'
     common_body(start_command)
