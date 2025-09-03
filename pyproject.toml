@@ -8,3 +8,14 @@ lcmtypes
 [tool.isort]
 profile = "black"
 skip_glob = '**/lcmtypes/**'
+
+[tool.pytest.ini_options]
+# 指定测试搜索路径（避免扫到脚本目录等）
+testpaths = [
+  "tests"
+]
+addopts = "-ra --color=yes --maxfail=1"
+markers = [
+  "slow: marks tests as slow",
+  "gpu: requires GPU"
+]

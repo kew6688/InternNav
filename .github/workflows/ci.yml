@@ -1,0 +1,63 @@
+name: PR CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+    branches: [ main, master, develop ]
+    paths-ignore:
+      - '**.md'
+      - 'docs/**'
+
+concurrency:
+  group: pr-${{ github.event.pull_request.number }}-${{ github.workflow }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    # 如果你只用 GitHub 托管 runner:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.pull_request.draft == false }} # 草稿 PR 不跑
+
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ['3.9', '3.11']
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python ${{ matrix.python-version }}
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ matrix.python-version }}-${{ hashFiles('**/requirements*.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-${{ matrix.python-version }}-
+
+      - name: Install deps
+        run: |
+            python -m pip install --upgrade pip
+            if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+            if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+
+      - name: Lint (flake8 + isort + black --check)
+        run: |
+          pip install flake8 isort black
+          flake8 .
+          isort --check-only --diff .
+          black --check .
+
+      - name: Run tests
+        run: |
+          pip install pytest
+          pytest -q

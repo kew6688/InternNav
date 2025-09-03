@@ -5,3 +5,4 @@
 [submodule "internnav/model/basemodel/LongCLIP"]
 	path = internnav/model/basemodel/LongCLIP
 	url = https://github.com/beichenzbc/Long-CLIP
+	ignore = untracked
