@@ -41,7 +41,6 @@ jobs:
       - name: Verify conda environment
         shell: bash -l {0}
         run: |
-          source /root/miniconda3/etc/profile.d/conda.sh
           conda activate internutopia
           echo "Current directory: $(pwd)"
           echo "Conda environment: $CONDA_DEFAULT_ENV"
@@ -52,6 +51,7 @@ jobs:
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash -l {0}
         run: |
+          conda activate internutopia
           git fetch origin ${{ github.base_ref }}
           pre-commit run --from-ref origin/${{ github.base_ref }} --to-ref HEAD
 
@@ -59,7 +59,6 @@ jobs:
         shell: bash -l {0}
         run: |
           # activate conda env
-          source /root/miniconda3/etc/profile.d/conda.sh
           conda activate internutopia
 
           # dataset
