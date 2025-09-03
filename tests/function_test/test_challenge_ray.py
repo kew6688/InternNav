@@ -7,6 +7,7 @@ The main progress:
 import importlib.util
 import subprocess
 import sys
+import time
 
 import numpy as np
 
@@ -68,19 +69,25 @@ def main():
 
 
 def start_server():
-    # Start server
     server_cmd = [
         sys.executable,
         "internnav/agent/utils/server.py",
         "--config",
-        'scripts/eval/configs/challenge_cfg.py',
+        "scripts/eval/configs/challenge_cfg.py",
     ]
-    subprocess.Popen(server_cmd, stdout=subprocess.PIPE, stderr=subprocess.STDOUT, start_new_session=True)
+
+    proc = subprocess.Popen(
+        server_cmd,
+        stdout=None,
+        stderr=None,
+    )
+    return proc
 
 
 if __name__ == '__main__':
     try:
         start_server()
+        time.sleep(3)
         main()
     except Exception as e:
         print(f'exception is {e}')

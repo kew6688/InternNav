@@ -13,10 +13,10 @@ def start_server():
         "--config",
         "scripts/eval/configs/challenge_cfg.py",
     ]
-    # No start_new_session，stay with parent process
+
     proc = subprocess.Popen(
         server_cmd,
-        stdout=subprocess.PIPE,  # avoid using PIPE, overflow the process buffer
+        stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT,
         start_new_session=True,
     )

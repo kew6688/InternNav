@@ -73,19 +73,18 @@ def start_server():
         "--config",
         "scripts/eval/configs/challenge_cfg.py",
     ]
-    # No start_new_session，stay with parent process
+
     proc = subprocess.Popen(
         server_cmd,
-        stdout=None,  # avoid using PIPE, overflow the process buffer
+        stdout=None,
         stderr=None,
     )
     return proc
 
 
 if __name__ == '__main__':
-    proc = None
     try:
-        # proc = start_server()
+        start_server()
         time.sleep(3)
         main()
     except Exception as e:
@@ -94,12 +93,3 @@ if __name__ == '__main__':
 
         traceback.print_exc()
         sys.exit(1)
-    finally:
-        if proc and proc.poll() is None:
-            print("Shutting down server...")
-            proc.terminate()
-            try:
-                proc.wait(timeout=10)
-            except subprocess.TimeoutExpired:
-                print("Force killing server...")
-                proc.kill()
