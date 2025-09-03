@@ -38,28 +38,16 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
 
-      - name: Verify conda environment
-        shell: bash -l {0}
-        run: |
-          conda activate internutopia
-          echo "Current directory: $(pwd)"
-          echo "Conda environment: $CONDA_DEFAULT_ENV"
-          python --version
-          which python
-
       - name: Run pre-commit on diff only
         if: ${{ github.event_name == 'pull_request' }}
         shell: bash -l {0}
         run: |
-          conda activate internutopia
           git fetch origin ${{ github.base_ref }}
           pre-commit run --from-ref origin/${{ github.base_ref }} --to-ref HEAD
 
       - name: Run tests
         shell: bash -l {0}
         run: |
-          # activate conda env
-          conda activate internutopia
 
           # dataset
           ln -sf /cpfs/user/wangyukai/mp3d_data data
@@ -70,4 +58,5 @@ jobs:
           ln -sf /cpfs/user/wangyukai/checkpoints
 
           # run tests
-          pytest -q -W ignore
+          /root/miniconda3/envs/internutopia/bin/python -c "import torch,sys;print(sys.executable);print('cuda:',torch.cuda.is_available())"
+          /root/miniconda3/envs/internutopia/bin/python -m pytest -q -W ignore
