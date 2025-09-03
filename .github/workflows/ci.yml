@@ -43,19 +43,30 @@ jobs:
         shell: bash -l {0}
         run: |
           git fetch origin ${{ github.base_ref }}
-          pre-commit run --from-ref origin/${{ github.base_ref }} --to-ref HEAD
+          /root/miniconda3/envs/internutopia/bin/pre-commit run --from-ref origin/${{ github.base_ref }} --to-ref HEAD
 
       - name: Run tests
         shell: bash -l {0}
         run: |
 
-          # dataset
-          ln -sf /cpfs/user/wangyukai/mp3d_data data
-          ln -sf /shared/smartbot/vln-pe/kujiale/grnavigation/data/lerobot/kujiale data/vln_pe/traj_data
-          ln -sf /cpfs/user/wangyukai/kujiale_data interiornav_data
+          # ensure a writable local data tree inside the checkout
+          [ -L data ] && rm -f data        # remove if 'data' is an old symlink
+          [ -d data ] || mkdir -p data     # create if missing
+          chmod u+w data || true
 
-          # checkpoints
-          ln -sf /cpfs/user/wangyukai/checkpoints
+          mkdir -p data/vln_pe             # make parent dir for the symlink
+          rm -f data/vln_pe/traj_data      # remove old symlink/file if any
+          ln -s /shared/smartbot/vln-pe/kujiale/grnavigation/data/lerobot/kujiale data/vln_pe/traj_data
+
+          # other links (make sure parents exist first)
+          rm -f data/mp3d_data
+          ln -s /cpfs/user/wangyukai/mp3d_data data
+
+          rm -f interiornav_data
+          ln -s /cpfs/user/wangyukai/kujiale_data interiornav_data
+
+          rm -f checkpoints
+          ln -s /cpfs/user/wangyukai/checkpoints checkpoints
 
           # run tests
           /root/miniconda3/envs/internutopia/bin/python -c "import torch,sys;print(sys.executable);print('cuda:',torch.cuda.is_available())"
