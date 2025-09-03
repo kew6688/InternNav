@@ -49,23 +49,10 @@ jobs:
         shell: bash -l {0}
         run: |
 
-          # ensure a writable local data tree inside the checkout
-          [ -L data ] && rm -f data        # remove if 'data' is an old symlink
-          [ -d data ] || mkdir -p data     # create if missing
-          chmod u+w data || true
-
-          mkdir -p data/vln_pe             # make parent dir for the symlink
-          rm -f data/vln_pe/traj_data      # remove old symlink/file if any
-          ln -s /shared/smartbot/vln-pe/kujiale/grnavigation/data/lerobot/kujiale data/vln_pe/traj_data
-
-          # other links (make sure parents exist first)
-          rm -f data/mp3d_data
-          ln -s /cpfs/user/wangyukai/mp3d_data data
-
-          rm -f interiornav_data
-          ln -s /cpfs/user/wangyukai/kujiale_data interiornav_data
-
-          rm -f checkpoints
+          mkdir data
+          ln -s /cpfs/user/wangyukai/mp3d_data/vln_pe data/vln_pe
+          ln -s /cpfs/user/wangyukai/mp3d_data/Embodiments data/Embodiments
+          ln -s /cpfs/user/wangyukai/mp3d_data/scene_data data/scene_data
           ln -s /cpfs/user/wangyukai/checkpoints checkpoints
 
           # run tests
