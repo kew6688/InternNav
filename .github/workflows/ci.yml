@@ -52,10 +52,12 @@ jobs:
       - name: Run tests
         shell: bash -l {0}
         run: |
+          # conda
           export PATH=/root/miniconda3/bin:$PATH
           source /root/miniconda3/etc/profile.d/conda.sh
           conda activate internutopia
 
+          # link data
           mkdir data
           ln -s /cpfs/user/wangyukai/mp3d_data/vln_pe data/vln_pe
           ln -s /cpfs/user/wangyukai/mp3d_data/Embodiments data/Embodiments

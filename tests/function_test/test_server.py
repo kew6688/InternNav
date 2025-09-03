@@ -18,27 +18,18 @@ def start_server():
         server_cmd,
         stdout=subprocess.PIPE,  # avoid using PIPE, overflow the process buffer
         stderr=subprocess.STDOUT,
+        start_new_session=True,
     )
     return proc
 
 
 if __name__ == '__main__':
-    proc = None
     try:
-        proc = start_server()
-        time.sleep(3)
+        start_server()
+        time.sleep(5)
     except Exception as e:
         print(f'exception is {e}')
         import traceback
 
         traceback.print_exc()
         sys.exit(1)
-    # finally:
-    #     if proc and proc.poll() is None:
-    #         print("Shutting down server...")
-    #         proc.terminate()
-    #         try:
-    #             proc.wait(timeout=10)
-    #         except subprocess.TimeoutExpired:
-    #             print("Force killing server...")
-    #             proc.kill()
