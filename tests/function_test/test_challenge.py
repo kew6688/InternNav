@@ -85,7 +85,7 @@ def start_server():
 if __name__ == '__main__':
     proc = None
     try:
-        proc = start_server()
+        # proc = start_server()
         time.sleep(3)
         main()
     except Exception as e:
