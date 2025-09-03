@@ -86,7 +86,7 @@ def start_server():
 
 if __name__ == '__main__':
     try:
-        start_server()
+        proc = start_server()
         time.sleep(3)
         main()
     except Exception as e:
@@ -95,3 +95,12 @@ if __name__ == '__main__':
 
         traceback.print_exc()
         sys.exit(1)
+    finally:
+        if proc and proc.poll() is None:
+            print("Shutting down server...")
+            proc.terminate()
+            try:
+                proc.wait(timeout=10)
+            except subprocess.TimeoutExpired:
+                print("Force killing server...")
+                proc.kill()
