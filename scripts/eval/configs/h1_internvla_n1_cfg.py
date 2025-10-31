@@ -13,6 +13,8 @@ eval_cfg = EvalCfg(
         model_name='internvla_n1',
         ckpt_path='',
         model_settings={
+            'policy_name': "InternVLAN1_Policy",
+            'state_encoder': None,
             'env_num': 1,
             'sim_num': 1,
             'model_path': "checkpoints/InternVLA-N1",

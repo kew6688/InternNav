@@ -17,12 +17,14 @@ from collections import OrderedDict
 from PIL import Image
 from transformers import AutoProcessor
 
+from internnav.agent import Agent
 from internnav.model.basemodel.internvla_n1.internvla_n1 import InternVLAN1ForCausalLM
 from internnav.model.utils.vln_utils import S2Output, split_and_clean, traj_to_actions
 
 DEFAULT_IMAGE_TOKEN = "<image>"
 
 
+@Agent.register('internvla_n1_async')
 class InternVLAN1AsyncAgent:
     def __init__(self, args):
         self.device = torch.device(args.device)
