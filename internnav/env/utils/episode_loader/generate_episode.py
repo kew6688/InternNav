@@ -67,10 +67,12 @@ def generate_vln_episode(dataloader: ResumablePathKeyEpisodeloader, task: TaskCf
 
         if task.scene.scene_type == 'kujiale':
             load_scene_func = load_kujiale_scene_usd
-            scene_scale = (1, 1, 1)
-        else:
+        elif task.scene.scene_type == 'mp3d':
             load_scene_func = load_scene_usd
-            scene_scale = (1, 1, 1)
+        elif task.scene.scene_type == 'grscene':
+            load_scene_func = load_scene_usd
+        else:
+            raise NotImplementedError("This scene function is not implemented yet.")
 
         robot_flash = getattr(task, "robot_flash", False)
         one_step_stand_still = getattr(task, "one_step_stand_still", False)
@@ -85,7 +87,7 @@ def generate_vln_episode(dataloader: ResumablePathKeyEpisodeloader, task: TaskCf
                 scene_asset_path=load_scene_func(scene_data_dir, dataloader.path_key_scan[path_key])
                 if scene_asset_path == ''
                 else scene_asset_path,
-                scene_scale=scene_scale,
+                scene_scale=task.scene.scene_scale,
                 robots=[
                     robot.update(
                         position=(

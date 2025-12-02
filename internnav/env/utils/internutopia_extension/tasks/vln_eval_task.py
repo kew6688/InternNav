@@ -210,7 +210,7 @@ class VLNEvalTask(BaseTask):
         # calculate metrics
         obs['fail_reason'] = reason
         obs['instruction'] = self.data['instruction']['instruction_text']
-        obs['instruction_tokens'] = self.data['instruction']['instruction_tokens']
+        obs['instruction_tokens'] = self.data['instruction'].get('instruction_tokens', [])
 
         obs = {self.robot_name: obs}
         return obs

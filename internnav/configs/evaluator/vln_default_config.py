@@ -295,7 +295,7 @@ def get_config(evaluator_cfg: EvalCfg):
         evaluator_cfg.task.scene = SceneCfg(
             scene_type='kujiale',
             scene_asset_path='',
-            scene_scale=(0.01, 0.01, 0.01),
+            scene_scale=(1, 1, 1),
             scene_settings={},
             scene_data_dir=evaluator_cfg.task.scene.scene_data_dir,
         )
