@@ -164,8 +164,11 @@ Please refer to the [documentation](https://internrobotics.github.io/user_guide/
 | InternVLA-N1 (Dual System)<span style="color: #28a745; font-size: 0.9em"> with NavDP*</span> | RGB-D | 4.70 | 59.7 | 50.6 | 69.7 |
 | InternVLA-N1 (Dual System)<span style="color: #28a745; font-size: 0.9em"> DualVLN </span> | RGB | **4.58** | **61.4** | **51.8** | **70.0** |
 
+<<<<<<< HEAD
 ---
 
+=======
+>>>>>>> main
 #### <u>VLN-PE Benchmarks</u>
 
 **📍 Flash Controller on R2R Unseen**
@@ -202,8 +205,11 @@ Please refer to the [documentation](https://internrobotics.github.io/user_guide/
 | iPlanner | 48.8 | 46.7 |
 | ViPlanner | 54.3 | 52.5 |
 | NavDP <InternVLA-N1 (System 1)> | **65.7** | **60.7** |
+<<<<<<< HEAD
 
 ---
+=======
+>>>>>>> main
 
 ## 🔧 Customization
 
